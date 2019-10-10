@@ -7,7 +7,7 @@ USE bAmazon_db;
 
 /* Create table */
 CREATE TABLE products (
-  item_id INTEGER(4) NOT NULL AUTO_INCREMENT,
+  item_id INT NOT NULL AUTO_INCREMENT,
   product_name VARCHAR(75) NOT NULL,
   department_name VARCHAR(30) NOT NULL,
   price DECIMAL(6, 2) NOT NULL,
