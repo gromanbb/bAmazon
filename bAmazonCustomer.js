@@ -1,6 +1,7 @@
 // Load NPM packages
 const mysql = require("mysql");
 const inquirer = require("inquirer");
+// Clear console/screen
 const clear = require("clear");
 clear();
 
@@ -19,6 +20,7 @@ connection.connect(function (err) {
   start();
 });
 
+// Function to kick off CLI
 function start() {
   clear();
 
@@ -27,14 +29,15 @@ function start() {
       name: "action",
       type: "list",
       message: "What would you like to do?",
+      pageSize: 5,
       choices: [
         "View Products for Sale",
         "Buy Products",
         "Exit"
       ]
     })
-    .then(function (answer1) {
-      switch (answer1.action) {
+    .then(function (answer) {
+      switch (answer.action) {
         case "View Products for Sale":
           viewProducts();
           break;
@@ -51,6 +54,7 @@ function start() {
     });
 }
 
+// Function to view all products for sale
 function viewProducts() {
   clear();
 
@@ -61,28 +65,11 @@ function viewProducts() {
     for (let i = 0; i < results.length; i++) {
       console.log("   " + results[i].item_id + " | " + results[i].product_name + " | \$" + results[i].price + " | " + results[i].stock_quantity);
     }
+    mainMenu();
   });
-  console.log("\n");
-  inquirer
-    .prompt([
-      {
-        name: "mainMenu",
-        type: "confirm",
-        message: "Return to main menu?",
-        default: true
-      }
-    ])
-    .then(function (ans1) {
-      if (ans1.mainMenu) {
-        start();
-      }
-      else {
-        clear();
-        connection.end();
-      }
-    });
 }
 
+// Function to buy products
 function buyProducts() {
   clear();
 
@@ -96,7 +83,7 @@ function buyProducts() {
           name: "name",
           type: "rawlist",
           message: "Which product would you like to buy?",
-          pageSize: 15,
+          pageSize: 12,
           choices: function () {
             let choiceArray = [];
             for (let i = 0; i < results.length; i++) {
@@ -108,7 +95,7 @@ function buyProducts() {
         {
           name: "qty",
           type: "input",
-          message: "How many do you want?",
+          message: "How many do you want?\t",
           validate: function (value) {
             if (isNaN(value) === false) {
               return true;
@@ -117,50 +104,65 @@ function buyProducts() {
           }
         }
       ])
-      .then(function (answer2) {
+      .then(function (answer) {
         // Get the information of the chosen product
         let chosenProduct;
         for (let i = 0; i < results.length; i++) {
-          if (results[i].product_name === answer2.name) {
+          if (results[i].product_name === answer.name) {
             chosenProduct = results[i];
           }
         }
         // Determine if the quantity is available in stock
-        if (parseInt(chosenProduct.stock_quantity) >= parseInt(answer2.qty)) {
+        if (parseInt(chosenProduct.stock_quantity) >= parseInt(answer.qty)) {
           // There is enough stock
-          let stockQty = parseInt(chosenProduct.stock_quantity) - parseInt(answer2.qty);
+          let stockQty = parseInt(chosenProduct.stock_quantity) - parseInt(answer.qty);
           connection.query(
             "UPDATE products SET ? WHERE ?",
-            [{ stock_quantity: stockQty }, { item_id: chosenProduct.item_id }],
+            [
+              { stock_quantity: stockQty },
+              { item_id: chosenProduct.item_id }
+            ],
             function (error) {
               if (error) throw err;
               console.log("\nOrder placed successfully!");
-              console.log("\nYour total cost is: \$" + (parseFloat(chosenProduct.price) * parseInt(answer2.qty)));
+              console.log("\nYour total cost is:\t\$" + (parseFloat(chosenProduct.price) * parseInt(answer.qty)));
+              mainMenu();
             }
           );
         }
         else {
           // Out of stock or not enough
           console.log("\nInsufficient quantity in stock!");
+          mainMenu();
         }
       });
   });
+}
+
+// Function to go back to the main menu or end the connection/exit
+function mainMenu() {
   console.log("\n");
   inquirer
     .prompt([
       {
-        name: "mainMenu",
-        type: "confirm",
-        message: "Return to main menu?",
-        default: true
+        name: "main_menu",
+        type: "input",
+        message: "Return to main menu (y/n)?",
+        validate: function (value) {
+          if (value.toLowercase === "y" || value.toLowercase === "n") {
+            return true;
+          }
+          return false;
+        }
       }
     ])
-    .then(function (ans2) {
-      if (ans2.mainMenu) {
+    .then(function (answer) {
+      if (answer.main_menu) {
         start();
       }
       else {
         clear();
+        console.log("Good-bye. Come back soon!");
         connection.end();
       }
     });
