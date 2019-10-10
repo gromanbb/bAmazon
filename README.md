@@ -26,14 +26,25 @@ bAmazon is a text-based Command Line Interface (CLI) that allows users to execut
 	```
 	node bAmazonCustomer.js
 	```
+![Demo](https://github.com/gromanbb/bAmazon/blob/master/images/bAmazonCustomer.png)
+
 ### What each command does
+
+​		![Demo](https://github.com/gromanbb/bAmazon/blob/master/images/bAmazonC_Menu.png)
 
 - bAmazon will display a list of products available for sale, including their IDs, names, prices and remaining quantities.
 
-![Demo](https://github.com/gromanbb/bAmazon/blob/master/images/bAmazonCustomer.js.png)
+  ![Demo](https://github.com/gromanbb/bAmazon/blob/master/images/bAmazonC_View.png)
 
 - It will allow the user to choose a product and specify how many units to buy.
 
-- If the quantity ordered is less than what is currently in stock, bAmazon will let the user know that the order has been placed and will display the total cost. It will also update the stock to reflect the quantity remaining after the purchase. 
+  ![Demo](https://github.com/gromanbb/bAmazon/blob/master/images/bAmazonC_BuyProd.png)
+  ![Demo](https://github.com/gromanbb/bAmazon/blob/master/images/bAmazonC_BuyQty.png)
+
+- If the quantity ordered is less than what is currently in stock, bAmazon will let the user know that the order has been placed and will display the total cost. It will also update the stock to reflect the quantity remaining after the purchase.
+
+  ![Demo](https://github.com/gromanbb/bAmazon/blob/master/images/bAmazonC_PO.png)
 
 - Otherwise, bAmazon will notify the user that the quantity ordered is insufficient.
+
+  ![Demo](https://github.com/gromanbb/bAmazon/blob/master/images/bAmazonC_NoStock.png)
