@@ -98,7 +98,9 @@ function buyProducts() {
           message: "How many do you want?\t",
           validate: function (value) {
             if (isNaN(value) === false) {
-              return true;
+              if (parseInt(value) > 0) {
+                return true;
+              }
             }
             return false;
           }
@@ -146,18 +148,16 @@ function mainMenu() {
     .prompt([
       {
         name: "main_menu",
-        type: "input",
-        message: "Return to main menu (y/n)?",
-        validate: function (value) {
-          if (value.toLowercase === "y" || value.toLowercase === "n") {
-            return true;
-          }
-          return false;
-        }
+        type: "list",
+        message: "Return to main menu?",
+        choices: [
+          "Yes",
+          "No"
+        ]
       }
     ])
     .then(function (answer) {
-      if (answer.main_menu) {
+      if (answer.main_menu === "Yes") {
         start();
       }
       else {
