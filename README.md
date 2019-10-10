@@ -15,6 +15,10 @@ bAmazon is a text-based Command Line Interface (CLI) that allows users to execut
     - [Inquirer](https://www.npmjs.com/package/inquirer)
     - [Clear](https://www.npmjs.com/package/clear) 
 
+2. You also need to run the `bAmazon_Seeds1.sql` script from Mysql to create the database and the products table.
+
+![Demo](https://github.com/gromanbb/bAmazon/blob/master/images/bAmazonC_Seeds1.png)
+
 ### Instructions
 
 1. Navigate to the root of your project and run `npm init -y`. This will initialize a `package.json` file for your project. The `package.json` file is required for installing third party npm packages and saving their version numbers. If you fail to initialize a `package.json` file, it will be troublesome, and at times almost impossible for anyone else to run your code after cloning your project.
@@ -26,7 +30,8 @@ bAmazon is a text-based Command Line Interface (CLI) that allows users to execut
 	```
 	node bAmazonCustomer.js
 	```
-![Demo](https://github.com/gromanbb/bAmazon/blob/master/images/bAmazonCustomer.png)
+
+​	![Demo](https://github.com/gromanbb/bAmazon/blob/master/images/bAmazonCustomer.png)
 
 ### What each command does
 
@@ -39,11 +44,14 @@ bAmazon is a text-based Command Line Interface (CLI) that allows users to execut
 - It will allow the user to choose a product and specify how many units to buy.
 
   ![Demo](https://github.com/gromanbb/bAmazon/blob/master/images/bAmazonC_BuyProd.png)
+
   ![Demo](https://github.com/gromanbb/bAmazon/blob/master/images/bAmazonC_BuyQty.png)
 
 - If the quantity ordered is less than what is currently in stock, bAmazon will let the user know that the order has been placed and will display the total cost. It will also update the stock to reflect the quantity remaining after the purchase.
 
   ![Demo](https://github.com/gromanbb/bAmazon/blob/master/images/bAmazonC_PO.png)
+
+  ![Demo](https://github.com/gromanbb/bAmazon/blob/master/images/bAmazonC_productsTable.png)
 
 - Otherwise, bAmazon will notify the user that the quantity ordered is insufficient.
 
